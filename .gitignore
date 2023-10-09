@@ -1,2 +1,4 @@
+/env
 /venv
 /.idea
+/src/local_settings.py
