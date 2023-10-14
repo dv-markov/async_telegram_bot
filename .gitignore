@@ -2,3 +2,7 @@
 /venv
 /.idea
 /bot_app/local_settings.py
+
+# Django
+*.pyc
+__pycache__
