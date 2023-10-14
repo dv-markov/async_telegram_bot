@@ -1,4 +1,4 @@
 /env
 /venv
 /.idea
-/src/local_settings.py
+/bot_app/local_settings.py
