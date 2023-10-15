@@ -9,6 +9,8 @@ from aiogram.types import Message
 from aiogram.utils.markdown import hbold
 
 import aiohttp
+import ssl
+import certifi
 
 import local_settings
 import keyboards
@@ -30,6 +32,7 @@ async def command_start_handler(message: Message) -> None:
 
 
 async def submit_verification_code(code, user_name, tg_id):
+    ssl_context = ssl.create_default_context(cafile=certifi.where())
     async with aiohttp.ClientSession() as session:
         request_data = {
             'code': code,
@@ -40,6 +43,7 @@ async def submit_verification_code(code, user_name, tg_id):
         async with session.post(
                 local_settings.VERIFY_CODE_URL,
                 data=request_data,
+                ssl=ssl_context,
         ) as response:
             return await response.json()
 
