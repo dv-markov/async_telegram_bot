@@ -15,7 +15,7 @@ contact_button = KeyboardButton(text='Отправить контакт',
                                 request_contact=True,
                                 )
 contact_kb = ReplyKeyboardMarkup(keyboard=[[contact_button]],
-                                 resize_keyboard=True,
+                                 # resize_keyboard=True,
                                  # one_time_keyboard=True,
                                  )
 
