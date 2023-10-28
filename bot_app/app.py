@@ -57,8 +57,8 @@ async def submit_phone(phone, user_name, tg_id):
     async with aiohttp.ClientSession() as session:
         request_data = {
             'phone': phone,
-            'tg_id': tg_id,
             'tg_name': user_name,
+            'tg_id': tg_id,
             'tg_bot_token': local_settings.DJANGO_ACCESS_KEY
         }
         async with session.patch(
