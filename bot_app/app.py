@@ -1,6 +1,9 @@
+#!/usr/bin/env python
+
 import asyncio
 import logging
 import sys
+from pprint import pprint
 
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.enums import ParseMode
@@ -30,7 +33,7 @@ async def command_start_handler(message: Message) -> None:
     await message.answer(
         f"""Добро пожаловать, {hbold(message.from_user.full_name)}!
 Вас приветствует телеграм-бот сайта realworker.ru 
-Для завершения регистрации подтвердите свой телефон нажатием кнопки "Отправить контакт" ниже""",
+Для регистрации подтвердите свой телефон нажатием кнопки "Отправить контакт" ниже""",
         reply_markup=keyboards.contact_kb,
     )
 
@@ -71,9 +74,11 @@ async def submit_phone(phone, user_name, tg_id):
 
 @dp.message(F.contact)
 async def contact_handler(message: types.Message) -> None:
+    # for obj in message:
+    #     pprint(obj)
     verified = None
     try:
-        phone = message.contact.phone_number
+        phone = message.contact.phone_number.strip("+")
         user_name = message.from_user.full_name
         tg_id = message.from_user.id
         res = await submit_phone(phone, user_name, tg_id)
@@ -83,7 +88,7 @@ async def contact_handler(message: types.Message) -> None:
         await message.answer(msg)
 
     if verified:
-        msg = 'Телефон подтвержден!'
+        msg = 'Телефон подтвержден! Завершите регистрацию на сайте realworker.ru'
         await message.answer(msg, reply_markup=types.ReplyKeyboardRemove())
     else:
         msg = 'Телефон не подтвержден, пройдите регистрацию на сайте realworker.ru'
@@ -122,7 +127,7 @@ async def echo_handler(message: types.Message) -> None:
     #         await message.answer(msg, reply_markup=keyboards.inline_kb_site)
     # else:
     try:
-        await message.reply("Команда не найдена")
+        await message.reply("Команда не найдена, для начала работы введите команду /start")
     except TypeError:
         await message.reply("Неподдерживаемый тип данных")
 
